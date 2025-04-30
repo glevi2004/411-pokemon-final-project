@@ -3,6 +3,7 @@ from flask import Flask, jsonify, make_response, Response, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 from pokemon.config import Config
+
 from pokemon.db import db
 from pokemon.models.user_model import User
 from pokemon.utils.logger import configure_logger
@@ -21,6 +22,7 @@ def create_app(config_class=Config) -> Flask:
     """
     app = Flask(__name__)
     configure_logger(app.logger)
+
     app.config.from_object(config_class)
 
     # Initialize database
@@ -47,6 +49,41 @@ def create_app(config_class=Config) -> Flask:
     
     # Register blueprints
     app.register_blueprint(pokemon_bp, url_prefix='/api')
+
+    # Add healthcheck route
+    # code used in playlist:
+    # @app.route('/api/health', methods=['GET'])
+    # def healthcheck() -> Response:
+    #     """Health check route to verify the service is running.
+
+    #     Returns:
+    #         JSON response indicating the health status of the service.
+
+    #     """
+    #     app.logger.info("Health check endpoint hit")
+    #     return make_response(jsonify({
+    #         'status': 'success',
+    #         'message': 'Service is running'
+    #     }), 200)
+
+    ##########################################################
+    #
+    # User Management
+    #
+    #########################################################
+
+    ##########################################################
+    #
+    # Pokemons
+    #
+    ##########################################################
+
+
+    ############################################################
+    #
+    # Favorites Add / Remove / View
+    #
+    ############################################################
     
     return app
 
