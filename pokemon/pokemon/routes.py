@@ -104,3 +104,10 @@ def get_evolutions(pokemon_id):
             "status": "error",
             "message": f"Error getting evolution chain: {str(e)}"
         }), 500)
+    
+
+# Testing logging
+@pokemon_bp.route('/test-logging')
+def test_logging():
+    logger.info("This is a test log message")
+    return "Logging is working!", 200

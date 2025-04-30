@@ -1,5 +1,6 @@
 import logging
 import sys
+from flask import current_app, has_request_context
 from typing import Optional
 
 def configure_logger(logger: Optional[logging.Logger] = None) -> logging.Logger:
@@ -13,21 +14,27 @@ def configure_logger(logger: Optional[logging.Logger] = None) -> logging.Logger:
     """
     if logger is None:
         logger = logging.getLogger(__name__)
-    
+
     # Set log level
-    logger.setLevel(logging.INFO)
-    
-    # Create console handler
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.INFO)
-    
-    # Create formatter
-    formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    )
-    console_handler.setFormatter(formatter)
-    
-    # Add handler to logger
-    logger.addHandler(console_handler)
-    
+    logger.setLevel(logging.DEBUG)  # Set the desired logging level here
+
+    # Create a console handler that logs to stderr
+    handler = logging.StreamHandler(sys.stderr)
+    handler.setLevel(logging.DEBUG)
+
+    # Create a formatter with a timestamp
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    # Add the formatter to the handler
+    handler.setFormatter(formatter)
+
+    # Add the handler to the logger
+    logger.addHandler(handler)
+
+    # If Flask request context exists, integrate with current_app.logger
+    if has_request_context():
+        app_logger = current_app.logger
+        for app_handler in app_logger.handlers:
+            logger.addHandler(app_handler)
+
     return logger
