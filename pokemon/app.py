@@ -5,7 +5,8 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from pokemon.config import Config
 from pokemon.db import db
 from pokemon.models.user_model import User
-from pokemon.utils.logger import configure_logger  # You'll need to create this
+from pokemon.utils.logger import configure_logger
+from pokemon.routes import pokemon_bp
 
 load_dotenv()
 
@@ -19,7 +20,7 @@ def create_app(config_class=Config) -> Flask:
         Flask app: The configured Flask application.
     """
     app = Flask(__name__)
-    configure_logger(app.logger)  # Configure logger like playlist app
+    configure_logger(app.logger)
     app.config.from_object(config_class)
 
     # Initialize database
@@ -43,6 +44,9 @@ def create_app(config_class=Config) -> Flask:
             "status": "error",
             "message": "Authentication required"
         }), 401)
+    
+    # Register blueprints
+    app.register_blueprint(pokemon_bp, url_prefix='/api')
     
     return app
 
