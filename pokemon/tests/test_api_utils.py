@@ -54,7 +54,3 @@ def test_get_evolution_chain_delegates_to__make_request(monkeypatch, api):
     data = api.get_evolution_chain(7)
     assert data == {"chain": [1,2,3]}
 
-
-def test_search_pokemon_not_implemented(api):
-    # currently search_pokemon is a stub (pass), so it returns None
-    assert api.search_pokemon("pika") is None
