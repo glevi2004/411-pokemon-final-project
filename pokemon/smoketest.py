@@ -5,7 +5,7 @@ import requests
 import random
 import string
 
-BASE_URL = "http://localhost:5000"
+BASE_URL = "http://localhost:5001"
 
 def assert_status(resp: requests.Response, expected: int):
     if resp.status_code != expected:

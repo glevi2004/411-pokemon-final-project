@@ -257,18 +257,6 @@ def create_app(config_class=Config) -> Flask:
                 "message": "An internal error occurred while deleting users",
                 "details": str(e)
             }), 500)
-    ##########################################################
-    #
-    # Pokemons
-    #
-    ##########################################################
-
-
-    ############################################################
-    #
-    # Favorites Add / Remove / View
-    #
-    ############################################################
     
     return app
 
